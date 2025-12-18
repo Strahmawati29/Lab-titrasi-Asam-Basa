@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modul 1 — Lab Virtual Titrasi Asam-Basa</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url("Lab.jpeg") no-repeat center center fixed;
+    background-size: cover;
+    transition: 0.3s;
+    color: #111;
+}
+
+/* ===== Header ===== */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0, 0, 128, 0.7);
+    padding: 15px 30px;
+    color: white;
+}
+
+header #logo {
+    height: 55px;
+    width: auto;
+}
+
+header .profile-box img {
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+/* Header button */
+header button {
+    padding: 8px 15px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+    width: 220px;
+    position: fixed;
+    top: 80px;
+    left: 0;
+    background: rgba(255,255,255,0.65); /* transparansi */
+    backdrop-filter: blur(5px);
+    height: 100%;
+    padding-top: 20px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 12px 20px;
+    color: #00358d;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.sidebar a:hover, .sidebar a.active {
+    background: rgba(0, 53, 141, 0.3);
+    border-radius: 6px;
+}
+
+/* ===== Konten Utama ===== */
+.main-content {
+    margin-left: 240px;
+    padding: 30px;
+    background: rgba(255,255,255,0.55); /* transparansi agar background terlihat */
+    border-radius: 12px;
+    backdrop-filter: blur(5px);
+}
+
+.main-content h1 {
+    color: #00358d;
+}
+
+.main-content p {
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* Tombol konten */
+.main-content .btn {
+    padding: 10px 20px;
+    margin-right: 10px;
+    background: #00358d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.main-content .btn:hover {
+    background: #011e4c;
+}
+
+/* Footer */
+footer {
+    margin-top: 40px;
+    text-align: center;
+    padding: 15px;
+    color: white;
+    font-size: 13px;
+}
+
+/* Dark Mode */
+.dark-mode body, .dark-mode .sidebar, .dark-mode .main-content {
+    background: rgba(0,0,0,0.65) !important;
+    color: white;
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div class="title-box">
+        <img src="logo_kampus.jpg" id="logo">
+        <span>Lab Virtual Titrasi Asam-Basa</span>
+    </div>
+    <div class="profile-box">
+        <span>St. Rahmawati</span>
+        <img src="">
+        <button onclick="toggleMode()">Dark Mode</button>
+    </div>
+</header>
+
+<div class="sidebar">
+    <a href="Modul 1.html" class="active">Beranda</a>
+    <a href="Modul 2.html">Teori</a>
+    <a href="Modul 3.html">Simulasi</a>
+    <a href="Modul 4.html">Grafik</a>
+    <a href="Modul 5.html">Eksperimen Mandiri</a>
+    <a href="Modul 6.html">Analisis & Refleksi</a>
+    <a href="Modul 7.html">Quiz & Sertifikat</a>
+    <a href="Modul 8.html">Mode Guru</a>
+</div>
+
+<div class="main-content">
+    <h1>Selamat datang di Laboratorium Virtual Titrasi Asam-Basa</h1>
+    <p>Silakan isi profil saat pertama kali membuka agar sertifikat & laporan terisi otomatis.</p>
+    <button class="btn">Masuk ke Simulasi</button>
+    <button class="btn">Petunjuk Singkat</button>
+</div>
+
+<footer>
+    © 2025 St. Rahmawati
+</footer>
+
+<script>
+function toggleMode() {
+    document.body.classList.toggle('dark-mode');
+}
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modul 1 — Lab Virtual Titrasi Asam-Basa</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url("Lab.jpeg") no-repeat center center fixed;
+    background-size: cover;
+    transition: 0.3s;
+    color: #111;
+}
+
+/* ===== Header ===== */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0, 0, 128, 0.7);
+    padding: 15px 30px;
+    color: white;
+}
+
+header #logo {
+    height: 55px;
+    width: auto;
+}
+
+header .profile-box img {
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+/* Header button */
+header button {
+    padding: 8px 15px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+    width: 220px;
+    position: fixed;
+    top: 80px;
+    left: 0;
+    background: rgba(255,255,255,0.65); /* transparansi */
+    backdrop-filter: blur(5px);
+    height: 100%;
+    padding-top: 20px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 12px 20px;
+    color: #00358d;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.sidebar a:hover, .sidebar a.active {
+    background: rgba(0, 53, 141, 0.3);
+    border-radius: 6px;
+}
+
+/* ===== Konten Utama ===== */
+.main-content {
+    margin-left: 240px;
+    padding: 30px;
+    background: rgba(255,255,255,0.55); /* transparansi agar background terlihat */
+    border-radius: 12px;
+    backdrop-filter: blur(5px);
+}
+
+.main-content h1 {
+    color: #00358d;
+}
+
+.main-content p {
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* Tombol konten */
+.main-content .btn {
+    padding: 10px 20px;
+    margin-right: 10px;
+    background: #00358d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.main-content .btn:hover {
+    background: #011e4c;
+}
+
+/* Footer */
+footer {
+    margin-top: 40px;
+    text-align: center;
+    padding: 15px;
+    color: white;
+    font-size: 13px;
+}
+
+/* Dark Mode */
+.dark-mode body, .dark-mode .sidebar, .dark-mode .main-content {
+    background: rgba(0,0,0,0.65) !important;
+    color: white;
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div class="title-box">
+        <img src="logo_kampus.jpg" id="logo">
+        <span>Lab Virtual Titrasi Asam-Basa</span>
+    </div>
+    <div class="profile-box">
+        <span>St. Rahmawati</span>
+        <img src="">
+        <button onclick="toggleMode()">Dark Mode</button>
+    </div>
+</header>
+
+<div class="sidebar">
+    <a href="Modul 1.html" class="active">Beranda</a>
+    <a href="Modul 2.html">Teori</a>
+    <a href="Modul 3.html">Simulasi</a>
+    <a href="Modul 4.html">Grafik</a>
+    <a href="Modul 5.html">Eksperimen Mandiri</a>
+    <a href="Modul 6.html">Analisis & Refleksi</a>
+    <a href="Modul 7.html">Quiz & Sertifikat</a>
+    <a href="Modul 8.html">Mode Guru</a>
+</div>
+
+<div class="main-content">
+    <h1>Selamat datang di Laboratorium Virtual Titrasi Asam-Basa</h1>
+    <p>Silakan isi profil saat pertama kali membuka agar sertifikat & laporan terisi otomatis.</p>
+    <button class="btn">Masuk ke Simulasi</button>
+    <button class="btn">Petunjuk Singkat</button>
+</div>
+
+<footer>
+    © 2025 St. Rahmawati
+</footer>
+
+<script>
+function toggleMode() {
+    document.body.classList.toggle('dark-mode');
+}
+</script>
+
+</body>
+</html>
