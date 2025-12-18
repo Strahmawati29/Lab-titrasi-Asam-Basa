@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modul 6 — Analisis & Refleksi</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url("Lab.jpeg") no-repeat center center fixed;
+    background-size: cover;
+    transition: 0.3s;
+    color: #111;
+}
+
+/* ===== Header ===== */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0, 0, 128, 0.75);
+    padding: 15px 30px;
+    color: white;
+}
+
+header #logo {
+    height: 55px;
+    width: auto;
+}
+
+header .profile-box img {
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+header button {
+    padding: 8px 15px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+    width: 220px;
+    position: fixed;
+    top: 80px;
+    left: 0;
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(5px);
+    height: 100%;
+    padding-top: 20px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 12px 20px;
+    color: #00358d;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.sidebar a:hover, .sidebar a.active {
+    background: rgba(0, 53, 141, 0.3);
+    border-radius: 6px;
+}
+
+/* ===== Konten Utama ===== */
+.main-content {
+    margin-left: 240px;
+    padding: 30px;
+    background: rgba(255,255,255,0.55);
+    border-radius: 12px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    transition: 0.3s;
+}
+
+.main-content h1 {
+    color: #00358d;
+    margin-bottom: 15px;
+}
+
+.main-content p {
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* Card */
+.card {
+    background: rgba(255,255,255,0.7);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Tombol */
+.main-content .btn {
+    padding: 12px 22px;
+    margin-right: 10px;
+    background: #00358d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.main-content .btn:hover {
+    background: #011e4c;
+    transform: scale(1.05);
+}
+
+/* Footer */
+footer {
+    margin-top: 40px;
+    text-align: center;
+    padding: 15px;
+    color: white;
+    font-size: 13px;
+}
+
+/* Dark Mode */
+.dark-mode body, .dark-mode .sidebar, .dark-mode .main-content {
+    background: rgba(0,0,0,0.65) !important;
+    color: white;
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div class="title-box">
+        <img src="logo_kampus.jpg" id="logo">
+        <span>Lab Virtual Titrasi Asam-Basa</span>
+    </div>
+    <div class="profile-box">
+        <span>St. Rahmawati</span>
+        <img src="">
+        <button onclick="toggleMode()">Dark Mode</button>
+    </div>
+</header>
+
+<div class="sidebar">
+    <a href="Modul 1.html">Beranda</a>
+    <a href="Modul 2.html" class="active">Teori</a>
+    <a href="Modul 3.html">Simulasi</a>
+    <a href="Modul 4.html">Grafik</a>
+    <a href="Modul 5.html">Eksperimen Mandiri</a>
+    <a href="Modul 6.html">Analisis & Refleksi</a>
+    <a href="Modul 7.html">Quiz & Sertifikat</a>
+    <a href="Modul 8.html">Mode Guru</a>
+</div>
+
+<div class="main-content">
+    <h1>Modul 6 — Analisis & Refleksi</h1>
+    <p>Di modul ini, Anda akan melakukan refleksi hasil eksperimen, menganalisis data titrasi, dan menarik kesimpulan dari percobaan virtual yang dilakukan.</p>
+
+    <div class="card">
+        <h2>Analisis Data</h2>
+        <p>Input hasil pengukuran Anda di sini untuk melihat grafik perubahan pH dan titik ekivalen.</p>
+        <button class="btn">Masukkan Data</button>
+    </div>
+
+    <div class="card">
+        <h2>Refleksi</h2>
+        <p>Tuliskan refleksi mengenai eksperimen ini, termasuk kendala, kesalahan, dan pemahaman konsep yang diperoleh.</p>
+        <button class="btn">Tuliskan Refleksi</button>
+    </div>
+
+    <div class="card">
+        <h2>Kesimpulan</h2>
+        <p>Ringkas semua temuan dari modul ini dan catat kesimpulan utama dari eksperimen titrasi asam-basa virtual Anda.</p>
+        <button class="btn">Simpan Kesimpulan</button>
+    </div>
+</div>
+
+<footer>
+    © 2025 St. Rahmawati
+</footer>
+
+<script>
+function toggleMode() {
+    document.body.classList.toggle('dark-mode');
+}
+</script>
+
+</body>
+</html>

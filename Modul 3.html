@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modul 3 – Simulasi Titrasi Asam-Basa</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #111;
+    min-height: 100vh;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0, 0, 128, 0.9);
+    padding: 15px 30px;
+    color: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+header .title-box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+header #logo {
+    height: 55px;
+    background: white;
+    padding: 5px;
+    border-radius: 8px;
+}
+
+header .profile-box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+header .profile-box img {
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    border: 2px solid white;
+    background: white;
+}
+
+header button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    background: white;
+    color: #000080;
+}
+
+header button:hover {
+    background: #f0f0f0;
+}
+
+.sidebar {
+    width: 220px;
+    position: fixed;
+    top: 85px;
+    left: 0;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    height: calc(100vh - 85px);
+    padding-top: 20px;
+    z-index: 100;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    overflow-y: auto;
+}
+
+.sidebar a {
+    display: block;
+    padding: 12px 20px;
+    color: #00358d;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.sidebar a:hover, .sidebar a.active {
+    background: rgba(0, 53, 141, 0.2);
+    border-left: 4px solid #00358d;
+}
+
+.main-content {
+    margin-left: 240px;
+    padding: 30px;
+    background: rgba(255,255,255,0.95);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    min-height: calc(100vh - 200px);
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.main-content h1 {
+    color: #00358d;
+    margin-bottom: 10px;
+    font-size: 28px;
+}
+
+.subtitle {
+    color: #666;
+    margin-bottom: 25px;
+    font-size: 14px;
+}
+
+/* Instructions */
+.instructions {
+    background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    border-left: 5px solid #f39c12;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.instructions h4 {
+    margin-top: 0;
+    color: #8b6914;
+    font-size: 18px;
+}
+
+.instructions ol {
+    margin: 10px 0 0 0;
+    padding-left: 25px;
+}
+
+.instructions li {
+    margin: 8px 0;
+    color: #5d4e00;
+}
+
+/* Lab Container */
+.lab-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 25px;
+    margin-top: 25px;
+}
+
+@media (max-width: 1200px) {
+    .lab-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.lab-area {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    padding: 30px;
+    border-radius: 12px;
+    position: relative;
+    min-height: 550px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.control-panel {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    height: fit-content;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.control-panel h3 {
+    color: #00358d;
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 3px solid #00358d;
+    padding-bottom: 12px;
+    font-size: 20px;
+}
+
+.control-group {
+    margin-bottom: 18px;
+}
+
+.control-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #00358d;
+    font-size: 14px;
+}
+
+.control-group select, .control-group input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #00358d;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.control-group select:focus, .control-group input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #00358d 0%, #0066cc 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 12px;
+    transition: all 0.3s;
+    box-shadow: 0 3px 10px rgba(0, 53, 141, 0.3);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 53, 141, 0.4);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.btn-action {
+    background: linear-gradient(135deg, #00c853 0%, #00e676 100%);
+    box-shadow: 0 3px 10px rgba(0, 200, 83, 0.3);
+}
+
+.btn-action:hover {
+    box-shadow: 0 5px 15px rgba(0, 200, 83, 0.4);
+}
+
+.btn-reset {
+    background: linear-gradient(135deg, #d32f2f 0%, #f44336 100%);
+    box-shadow: 0 3px 10px rgba(211, 47, 47, 0.3);
+}
+
+.btn-reset:hover {
+    box-shadow: 0 5px 15px rgba(211, 47, 47, 0.4);
+}
+
+/* Lab Equipment */
+.equipment-container {
+    position: relative;
+    height: 480px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 20px;
+}
+
+/* Burette */
+.burette-container {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.burette-top {
+    width: 60px;
+    height: 30px;
+    background: linear-gradient(to bottom, #444, #666);
+    border-radius: 10px 10px 0 0;
+    margin: 0 auto;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.burette-tube {
+    width: 55px;
+    height: 320px;
+    background: linear-gradient(to right, rgba(200, 220, 255, 0.5), rgba(220, 235, 255, 0.7), rgba(200, 220, 255, 0.5));
+    border: 4px solid #333;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.2), 0 4px 10px rgba(0,0,0,0.2);
+    margin: 0 auto;
+}
+
+.burette-liquid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to bottom, rgba(100, 150, 255, 0.8), rgba(80, 120, 255, 0.9));
+    transition: height 0.6s ease;
+    border-radius: 0 0 8px 8px;
+}
+
+.burette-scale {
+    position: absolute;
+    right: -35px;
+    top: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+}
+
+.burette-tap {
+    width: 40px;
+    height: 25px;
+    background: linear-gradient(135deg, #666, #444);
+    margin: 0 auto;
+    border-radius: 0 0 20px 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+.burette-tap:hover {
+    background: linear-gradient(135deg, #00358d, #0066cc);
+    transform: scale(1.05);
+}
+
+.burette-tap.open {
+    background: linear-gradient(135deg, #d32f2f, #f44336);
+}
+
+.burette-tap::after {
+    content: '▼';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
+}
+
+/* Droplet Animation */
+.droplet {
+    position: absolute;
+    width: 10px;
+    height: 15px;
+    background: radial-gradient(circle at 30% 30%, rgba(150, 180, 255, 0.9), rgba(80, 120, 255, 1));
+    border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: fall 0.7s ease-in;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    z-index: 5;
+}
+
+@keyframes fall {
+    0% {
+        top: 375px;
+        opacity: 1;
+    }
+    100% {
+        top: 430px;
+        opacity: 0;
+    }
+}
+
+/* Erlenmeyer Flask */
+.erlenmeyer-container {
+    position: relative;
+    width: 180px;
+    height: 220px;
+    z-index: 1;
+}
+
+.flask-neck {
+    width: 50px;
+    height: 70px;
+    background: linear-gradient(to right, rgba(255,255,255,0.3), rgba(255,255,255,0.5), rgba(255,255,255,0.3));
+    border: 4px solid #333;
+    border-bottom: none;
+    margin: 0 auto;
+    border-radius: 5px 5px 0 0;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.flask-body {
+    width: 180px;
+    height: 150px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.4), rgba(255,255,255,0.6));
+    border: 4px solid #333;
+    border-radius: 0 0 45% 45%;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.15), 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.solution {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #ff6b6b;
+    transition: all 0.5s ease;
+    border-radius: 0 0 45% 45%;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+}
+
+.solution::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+/* pH Indicator */
+.indicator-strip {
+    position: absolute;
+    bottom: 80px;
+    right: 20px;
+    width: 80px;
+    background: white;
+    border: 3px solid #333;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.indicator-label {
+    text-align: center;
+    font-size: 11px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.ph-indicator {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: bold;
+    background: #ff6b6b;
+    color: white;
+    border-radius: 8px;
+    transition: all 0.5s;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Data Display */
+.data-display {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 25px;
+    border: 3px solid #00358d;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.data-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 2px solid #e0e0e0;
+    align-items: center;
+}
+
+.data-row:last-child {
+    border-bottom: none;
+}
+
+.data-label {
+    font-weight: bold;
+    color: #00358d;
+    font-size: 15px;
+}
+
+.data-value {
+    color: #333;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    font-weight: bold;
+    background: #f5f5f5;
+    padding: 5px 12px;
+    border-radius: 6px;
+}
+
+/* Notification */
+.notification {
+    position: fixed;
+    top: 100px;
+    right: 30px;
+    padding: 18px 25px;
+    background: linear-gradient(135deg, #00c853, #00e676);
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    z-index: 1000;
+    animation: slideIn 0.4s ease;
+    font-weight: bold;
+    max-width: 350px;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(500px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.notification.warning {
+    background: linear-gradient(135deg, #ff9800, #ffc107);
+}
+
+.notification.danger {
+    background: linear-gradient(135deg, #d32f2f, #f44336);
+}
+
+footer {
+    margin-top: 40px;
+    text-align: center;
+    padding: 20px;
+    color: white;
+    font-size: 13px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.dark-mode body {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+.dark-mode .main-content, .dark-mode .sidebar, .dark-mode .control-panel {
+    background: rgba(30, 30, 50, 0.95);
+    color: white;
+}
+
+.dark-mode .lab-area {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
+}
+
+.dark-mode .data-display {
+    background: rgba(40, 40, 60, 0.95);
+    border-color: #667eea;
+}
+
+.dark-mode .data-label {
+    color: #89b4f8;
+}
+
+.dark-mode .data-value {
+    background: rgba(60, 60, 80, 0.8);
+    color: white;
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div class="title-box">
+        <div id="logo" style="width: 55px; height: 55px; background: white; border-radius: 8px;"></div>
+        <span style="font-size: 18px; font-weight: bold;">Lab Virtual Titrasi Asam-Basa</span>
+    </div>
+    <div class="profile-box">
+        <span>St. Rahmawati</span>
+        <div style="width: 45px; height: 45px; background: white; border-radius: 50%; border: 2px solid white;"></div>
+        <button onclick="toggleMode()">🌙 Dark Mode</button>
+    </div>
+</header>
+
+<div class="sidebar">
+     <a href="Modul 1.html">Beranda</a>
+    <a href="Modul 2.html" class="active">Teori</a>
+    <a href="Modul 3.html">Simulasi</a>
+    <a href="Modul 4.html">Grafik</a>
+    <a href="Modul 5.html">Eksperimen Mandiri</a>
+    <a href="Modul 6.html">Analisis & Refleksi</a>
+    <a href="Modul 7.html">Quiz & Sertifikat</a>
+    <a href="Modul 8.html">Mode Guru</a>
+</div>
+
+<div class="main-content">
+    <h1>🧪 Simulasi Titrasi Asam-Basa</h1>
+    <p class="subtitle">Lakukan titrasi virtual dengan kontrol penuh terhadap parameter eksperimen</p>
+    
+    <div class="instructions">
+        <h4>📋 Petunjuk Penggunaan Simulasi:</h4>
+        <ol>
+            <li><strong>Atur Parameter:</strong> Pilih jenis larutan, volume, dan konsentrasi di panel kontrol</li>
+            <li><strong>Pilih Indikator:</strong> Tentukan indikator yang sesuai dengan jenis titrasi</li>
+            <li><strong>Mulai Eksperimen:</strong> Klik tombol "Mulai Eksperimen" untuk memulai</li>
+            <li><strong>Tambah Titran:</strong> Klik keran buret atau tombol "Tambah Tetes" untuk menambahkan titran</li>
+            <li><strong>Amati Perubahan:</strong> Perhatikan perubahan warna larutan dan nilai pH secara real-time</li>
+            <li><strong>Titik Ekuivalen:</strong> Simulasi akan memberitahu saat mencapai titik ekuivalen</li>
+        </ol>
+    </div>
+
+    <div class="lab-container">
+        <div class="lab-area">
+            <div class="equipment-container">
+                <!-- Burette -->
+                <div class="burette-container">
+                    <div class="burette-top"></div>
+                    <div class="burette-tube">
+                        <div class="burette-liquid" id="buretteLiquid"></div>
+                    </div>
+                    <div class="burette-scale">
+                        <span>0</span>
+                        <span>10</span>
+                        <span>20</span>
+                        <span>30</span>
+                        <span>40</span>
+                        <span>50</span>
+                    </div>
+                    <div class="burette-tap" id="buretteTap"></div>
+                </div>
+
+                <!-- Erlenmeyer Flask -->
+                <div class="erlenmeyer-container">
+                    <div class="flask-neck"></div>
+                    <div class="flask-body">
+                        <div class="solution" id="solution"></div>
+                    </div>
+                </div>
+
+                <!-- pH Indicator -->
+                <div class="indicator-strip">
+                    <div class="indicator-label">pH Meter</div>
+                    <div class="ph-indicator" id="phIndicator">1.0</div>
+                </div>
+            </div>
+
+            <div class="data-display">
+                <div class="data-row">
+                    <span class="data-label">💧 Volume Titran:</span>
+                    <span class="data-value" id="volumeAdded">0.00 mL</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">🔬 pH Larutan:</span>
+                    <span class="data-value" id="phValue">1.00</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">📍 Status:</span>
+                    <span class="data-value" id="status">Belum dimulai</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">🎯 Titik Ekuivalen:</span>
+                    <span class="data-value" id="equivalencePoint">-- mL</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="control-panel">
+            <h3>⚙️ Panel Kontrol Eksperimen</h3>
+            
+            <div class="control-group">
+                <label>🔬 Jenis Titrasi:</label>
+                <select id="titrationType" onchange="updateTitrationSetup()">
+                    <option value="strong-acid-strong-base">Asam Kuat + Basa Kuat</option>
+                    <option value="weak-acid-strong-base">Asam Lemah + Basa Kuat</option>
+                    <option value="strong-acid-weak-base">Asam Kuat + Basa Lemah</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label>⚗️ Larutan dalam Labu (Titrat):</label>
+                <select id="analyteSolution">
+                    <option value="HCl">HCl (Asam Kuat)</option>
+                    <option value="CH3COOH">CH₃COOH (Asam Lemah)</option>
+                    <option value="H2SO4">H₂SO₄ (Asam Kuat)</option>
+                    <option value="HNO3">HNO₃ (Asam Kuat)</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label>📏 Volume Titrat (mL):</label>
+                <input type="number" id="analyteVolume" value="25" min="10" max="50" step="5">
+            </div>
+
+            <div class="control-group">
+                <label>⚖️ Konsentrasi Titrat (M):</label>
+                <input type="number" id="analyteConc" value="0.1" min="0.01" max="1" step="0.01">
+            </div>
+
+            <div class="control-group">
+                <label>💧 Titran (dalam Buret):</label>
+                <select id="titrantSolution">
+                    <option value="NaOH">NaOH (Basa Kuat)</option>
+                    <option value="KOH">KOH (Basa Kuat)</option>
+                    <option value="NH3">NH₃ (Basa Lemah)</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label>⚖️ Konsentrasi Titran (M):</label>
+                <input type="number" id="titrantConc" value="0.1" min="0.01" max="1" step="0.01">
+            </div>
+
+            <div class="control-group">
+                <label>🎨 Indikator:</label>
+                <select id="indicator">
+                    <option value="phenolphthalein">Fenolftalein (pH 8.2-10)</option>
+                    <option value="methyl-orange">Metil Oranye (pH 3.1-4.4)</option>
+                    <option value="bromothymol-blue">Bromtimol Biru (pH 6.0-7.6)</option>
+                </select>
+            </div>
+
+            <button class="btn" id="startBtn" onclick="startExperiment()">▶️ Mulai Eksperimen</button>
+            <button class="btn btn-action" id="addDropBtn" onclick="addDrop()" disabled>💧 Tambah Tetes (0.5 mL)</button>
+            <button class="btn btn-reset" onclick="resetExperiment()">🔄 Reset Eksperimen</button>
+        </div>
+    </div>
+</div>
+
+<footer>
+    © 2025 St. Rahmawati - Laboratorium Virtual Titrasi Asam-Basa
+</footer>
+
+<script>
+// State management
+let state = {
+    isRunning: false,
+    volumeAdded: 0,
+    currentPH: 1.0,
+    analyteVol: 25,
+    analyteConc: 0.1,
+    titrantConc: 0.1,
+    equivalenceVol: 25,
+    equivalencePH: 7.0,
+    isComplete: false,
+    initialPH: 1.0,
+    titrationType: 'strong-acid-strong-base'
+};
+
+function toggleMode() {
+    document.body.classList.toggle('dark-mode');
+}
+
+function updateTitrationSetup() {
+    const type = document.getElementById('titrationType').value;
+    const analyteSol = document.getElementById('analyteSolution');
+    const titrantSol = document.getElementById('titrantSolution');
+    
+    if (type === 'strong-acid-strong-base') {
+        analyteSol.value = 'HCl';
+        titrantSol.value = 'NaOH';
+    } else if (type === 'weak-acid-strong-base') {
+        analyteSol.value = 'CH3COOH';
+        titrantSol.value = 'NaOH';
+    } else {
+        analyteSol.value = 'HCl';
+        titrantSol.value = 'NH3';
+    }
+}
+
+function startExperiment() {
+    // Get values
+    const analyteVol = parseFloat(document.getElementById('analyteVolume').value);
+    const analyteConc = parseFloat(document.getElementById('analyteConc').value);
+    const titrantConc = parseFloat(document.getElementById('titrantConc').value);
+    const titrationType = document.getElementById('titrationType').value;
+    
+    // Validate inputs
+    if (isNaN(analyteVol) || isNaN(analyteConc) || isNaN(titrantConc)) {
+        showNotification('⚠️ Mohon isi semua parameter dengan benar!', 'warning');
+        return;
+    }
+    
+    // Calculate equivalence point
+    state.analyteVol = analyteVol;
+    state.analyteConc = analyteConc;
+    state.titrantConc = titrantConc;
+    state.equivalenceVol = (analyteVol * analyteConc) / titrantConc;
+    state.titrationType = titrationType;
+    
+    // Set initial pH and equivalence pH based on type
+    if (titrationType === 'strong-acid-strong-base') {
+        state.initialPH = 1.0;
+        state.equivalencePH = 7.0;
+        state.currentPH = 1.0;
+    } else if (titrationType === 'weak-acid-strong-base') {
+        state.initialPH = 2.9;
+        state.equivalencePH = 8.7;
+        state.currentPH = 2.9;
+    } else { // strong-acid-weak-base
+        state.initialPH = 1.0;
+        state.equivalencePH = 5.3;
+        state.currentPH = 1.0;
+    }
+    
+    // Reset state
+    state.isRunning = true;
+    state.volumeAdded = 0;
+    state.isComplete = false;
+    
+    // Update UI
+    document.getElementById('startBtn').disabled = true;
+    document.getElementById('addDropBtn').disabled = false;
+    document.getElementById('equivalencePoint').textContent = state.equivalenceVol.toFixed(2) + ' mL';
+    
+    // Initialize burette
+    document.getElementById('buretteLiquid').style.height = '0%';
+    
+    // Update display
+    updateAllDisplays();
+    
+    showNotification('✅ Eksperimen dimulai! Klik keran buret atau tombol untuk menambahkan titran.', 'success');
+}
+
+function addDrop() {
+    if (!state.isRunning || state.isComplete) return;
+    
+    const dropVol = 0.5;
+    state.volumeAdded += dropVol;
+    
+    // Calculate new pH
+    calculatePH();
+    
+    // Update all displays
+    updateAllDisplays();
+    
+    // Create droplet animation
+    createDroplet();
+    
+    // Check for equivalence point
+    const diff = Math.abs(state.volumeAdded - state.equivalenceVol);
+    
+    if (diff < 0.6 && !state.isComplete) {
+        state.isComplete = true;
+        showNotification('🎉 TITIK EKUIVALEN TERCAPAI!\nVolume: ' + state.volumeAdded.toFixed(2) + ' mL\npH: ' + state.currentPH.toFixed(2), 'success');
+        document.getElementById('addDropBtn').disabled = true;
+    } else if (state.volumeAdded > state.equivalenceVol + 15) {
+        showNotification('⚠️ Sudah jauh melewati titik ekuivalen! Silakan reset.', 'warning');
+        document.getElementById('addDropBtn').disabled = true;
+    }
+}
+
+function calculatePH() {
+    const volAdded = state.volumeAdded;
+    const volEq = state.equivalenceVol;
+    const pHEq = state.equivalencePH;
+    const initialPH = state.initialPH;
+    
+    if (volAdded === 0) {
+        state.currentPH = initialPH;
+    } else if (volAdded < volEq * 0.5) {
+        // Early stage - slow increase
+        const progress = volAdded / (volEq * 0.5);
+        state.currentPH = initialPH + (pHEq - initialPH) * progress * 0.3;
+    } else if (volAdded < volEq * 0.9) {
+        // Middle stage - gradual increase
+        const progress = (volAdded - volEq * 0.5) / (volEq * 0.4);
+        const startPH = initialPH + (pHEq - initialPH) * 0.3;
+        state.currentPH = startPH + (pHEq - startPH) * progress * 0.6;
+    } else if (volAdded < volEq * 1.1) {
+        // Near equivalence - rapid change
+        const progress = (volAdded - volEq * 0.9) / (volEq * 0.2);
+        const startPH = initialPH + (pHEq - initialPH) * 0.48;
+        state.currentPH = startPH + (pHEq + (14 - pHEq) * 0.5 - startPH) * progress;
+    } else {
+        // After equivalence - gradual increase
+        const excess = volAdded - volEq;
+        state.currentPH = pHEq + Math.min(14 - pHEq, excess * 0.15);
+    }
+    
+    // Clamp pH between 0 and 14
+    state.currentPH = Math.max(0, Math.min(14, state.currentPH));
+}
+
+function updateAllDisplays() {
+    // Update text displays
+    document.getElementById('volumeAdded').textContent = state.volumeAdded.toFixed(2) + ' mL';
+    document.getElementById('phValue').textContent = state.currentPH.toFixed(2);
+    document.getElementById('phIndicator').textContent = state.currentPH.toFixed(1);
+    
+    // Update status
+    let status = 'Titrasi berjalan...';
+    if (!state.isRunning) {
+        status = 'Belum dimulai';
+    } else if (state.isComplete) {
+        status = '✓ Selesai';
+    }
+    document.getElementById('status').textContent = status;
+    
+    // Update solution color
+    updateSolutionColor();
+    
+    // Update pH indicator color
+    updatePHIndicatorColor();
+    
+    // Update burette level
+    const burettePercent = Math.min(100, (state.volumeAdded / 50) * 100);
+    document.getElementById('buretteLiquid').style.height = burettePercent + '%';
+    
+    // Update solution level in flask
+    const baseLevel = 35;
+    const addedLevel = (state.volumeAdded / state.equivalenceVol) * 45;
+    const totalLevel = Math.min(90, baseLevel + addedLevel);
+    document.getElementById('solution').style.height = totalLevel + '%';
+}
+
+function updateSolutionColor() {
+    const pH = state.currentPH;
+    let color;
+    
+    // Color gradient based on pH
+    if (pH < 2) {
+        color = '#ff4444';
+    } else if (pH < 3) {
+        color = '#ff6666';
+    } else if (pH < 4) {
+        color = '#ff8888';
+    } else if (pH < 5) {
+        color = '#ffaaaa';
+    } else if (pH < 6) {
+        color = '#ffcccc';
+    } else if (pH < 7) {
+        color = '#ffe0e0';
+    } else if (pH < 8) {
+        color = '#e0e0ff';
+    } else if (pH < 9) {
+        color = '#ccccff';
+    } else if (pH < 10) {
+        color = '#aaaaff';
+    } else if (pH < 11) {
+        color = '#8888ff';
+    } else if (pH < 12) {
+        color = '#6666ff';
+    } else {
+        color = '#4444ff';
+    }
+    
+    document.getElementById('solution').style.background = color;
+}
+
+function updatePHIndicatorColor() {
+    const pH = state.currentPH;
+    const indicator = document.getElementById('indicator').value;
+    let color;
+    
+    if (indicator === 'phenolphthalein') {
+        if (pH < 8.2) {
+            color = '#ffcccc';
+        } else if (pH < 10) {
+            color = '#ff69b4';
+        } else {
+            color = '#ff1493';
+        }
+    } else if (indicator === 'methyl-orange') {
+        if (pH < 3.1) {
+            color = '#ff4444';
+        } else if (pH < 4.4) {
+            color = '#ff8800';
+        } else {
+            color = '#ffaa00';
+        }
+    } else { // bromothymol-blue
+        if (pH < 6.0) {
+            color = '#ffff00';
+        } else if (pH < 7.6) {
+            color = '#00cc66';
+        } else {
+            color = '#0066cc';
+        }
+    }
+    
+    document.getElementById('phIndicator').style.background = color;
+}
+
+function createDroplet() {
+    const droplet = document.createElement('div');
+    droplet.className = 'droplet';
+    document.querySelector('.equipment-container').appendChild(droplet);
+    
+    setTimeout(() => {
+        droplet.remove();
+    }, 700);
+}
+
+function resetExperiment() {
+    state = {
+        isRunning: false,
+        volumeAdded: 0,
+        currentPH: 1.0,
+        analyteVol: 25,
+        analyteConc: 0.1,
+        titrantConc: 0.1,
+        equivalenceVol: 25,
+        equivalencePH: 7.0,
+        isComplete: false,
+        initialPH: 1.0,
+        titrationType: 'strong-acid-strong-base'
+    };
+    
+    document.getElementById('startBtn').disabled = false;
+    document.getElementById('addDropBtn').disabled = true;
+    document.getElementById('equivalencePoint').textContent = '-- mL';
+    
+    updateAllDisplays();
+    
+    showNotification('🔄 Eksperimen telah direset. Atur parameter dan mulai lagi!', 'success');
+}
+
+function showNotification(message, type = 'success') {
+    // Remove existing notifications
+    const existing = document.querySelectorAll('.notification');
+    existing.forEach(n => n.remove());
+    
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    if (type === 'warning') notification.classList.add('warning');
+    if (type === 'danger') notification.classList.add('danger');
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transform = 'translateX(500px)';
+        setTimeout(() => notification.remove(), 400);
+    }, 4000);
+}
+
+// Burette tap click handler
+document.getElementById('buretteTap').addEventListener('click', function() {
+    if (state.isRunning && !state.isComplete) {
+        this.classList.add('open');
+        addDrop();
+        setTimeout(() => {
+            this.classList.remove('open');
+        }, 500);
+    }
+});
+
+// Initialize display on load
+window.addEventListener('DOMContentLoaded', function() {
+    updateAllDisplays();
+    showNotification('👋 Selamat datang! Atur parameter dan klik "Mulai Eksperimen" untuk memulai.', 'success');
+}); 

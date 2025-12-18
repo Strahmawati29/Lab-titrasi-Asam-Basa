@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modul 7 — Quiz & Sertifikat</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url("Lab.jpeg") no-repeat center center fixed;
+    background-size: cover;
+    color: #111;
+    transition: 0.3s;
+}
+
+/* ===== Header ===== */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0, 0, 128, 0.7);
+    padding: 15px 30px;
+    color: white;
+}
+
+header #logo {
+    height: 55px;
+    width: auto;
+}
+
+header .profile-box img {
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+header button {
+    padding: 8px 15px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+    width: 220px;
+    position: fixed;
+    top: 80px;
+    left: 0;
+    background: rgba(255,255,255,0.65);
+    backdrop-filter: blur(5px);
+    height: 100%;
+    padding-top: 20px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 12px 20px;
+    color: #00358d;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.sidebar a:hover, .sidebar a.active {
+    background: rgba(0, 53, 141, 0.3);
+    border-radius: 6px;
+}
+
+/* ===== Konten Utama ===== */
+.main-content {
+    margin-left: 240px;
+    padding: 30px;
+    background: rgba(255,255,255,0.55);
+    border-radius: 12px;
+    backdrop-filter: blur(5px);
+}
+
+.main-content h1 {
+    color: #00358d;
+    margin-bottom: 20px;
+}
+
+.main-content p {
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* Quiz Form */
+.quiz-form {
+    margin-top: 20px;
+}
+
+.quiz-form label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+.quiz-form input[type="radio"] {
+    margin-right: 10px;
+}
+
+.quiz-form button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: #00358d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.quiz-form button:hover {
+    background: #011e4c;
+}
+
+/* Certificate */
+.certificate {
+    margin-top: 30px;
+    padding: 20px;
+    background: rgba(0, 128, 0, 0.2);
+    border: 2px dashed #008000;
+    border-radius: 12px;
+    display: none;
+    text-align: center;
+}
+
+.certificate h2 {
+    color: #008000;
+    margin-bottom: 10px;
+}
+
+/* Footer */
+footer {
+    margin-top: 40px;
+    text-align: center;
+    padding: 15px;
+    color: white;
+    font-size: 13px;
+}
+
+/* Dark Mode */
+.dark-mode body, .dark-mode .sidebar, .dark-mode .main-content {
+    background: rgba(0,0,0,0.65) !important;
+    color: white;
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div class="title-box">
+        <img src="logo_kampus.jpg" id="logo">
+        <span>Lab Virtual Titrasi Asam-Basa — Modul 7</span>
+    </div>
+    <div class="profile-box">
+        <span>St. Rahmawati</span>
+        <img src="">
+        <button onclick="toggleMode()">Dark Mode</button>
+    </div>
+</header>
+
+<div class="sidebar">
+     <a href="Modul 1.html">Beranda</a>
+    <a href="Modul 2.html" class="active">Teori</a>
+    <a href="Modul 3.html">Simulasi</a>
+    <a href="Modul 4.html">Grafik</a>
+    <a href="Modul 5.html">Eksperimen Mandiri</a>
+    <a href="Modul 6.html">Analisis & Refleksi</a>
+    <a href="Modul 7.html">Quiz & Sertifikat</a>
+    <a href="Modul 8.html">Mode Guru</a>
+</div>
+
+<div class="main-content">
+    <h1>Quiz Modul 7</h1>
+    <p>Jawablah pertanyaan berikut dengan benar untuk mendapatkan sertifikat digital!</p>
+
+    <form class="quiz-form" id="quizForm">
+        <label>1. Apa fungsi indikator pada titrasi?</label>
+        <input type="radio" name="q1" value="A"> Menentukan titik ekuivalen<br>
+        <input type="radio" name="q1" value="B"> Mengubah pH larutan<br>
+        <input type="radio" name="q1" value="C"> Menambah volume larutan<br>
+
+        <label>2. Titrasi digunakan untuk …</label>
+        <input type="radio" name="q2" value="A"> Menentukan konsentrasi larutan<br>
+        <input type="radio" name="q2" value="B"> Memisahkan campuran<br>
+        <input type="radio" name="q2" value="C"> Mengukur suhu larutan<br>
+
+        <button type="button" onclick="checkQuiz()">Kirim Jawaban</button>
+    </form>
+
+    <div class="certificate" id="certificate">
+        <h2>SERTIFIKAT</h2>
+        <p>Selamat! Anda telah menyelesaikan Modul 7: Quiz & Sertifikat.</p>
+    </div>
+</div>
+
+<footer>
+    © 2025 St. Rahmawati
+</footer>
+
+<script>
+function toggleMode() {
+    document.body.classList.toggle('dark-mode');
+}
+
+function checkQuiz() {
+    const q1 = document.querySelector('input[name="q1"]:checked');
+    const q2 = document.querySelector('input[name="q2"]:checked');
+
+    if(!q1 || !q2) {
+        alert("Silakan jawab semua pertanyaan!");
+        return;
+    }
+
+    if(q1.value === "A" && q2.value === "A") {
+        alert("Jawaban benar! Sertifikat akan ditampilkan.");
+        document.getElementById("certificate").style.display = "block";
+    } else {
+        alert("Jawaban salah. Silakan coba lagi.");
+    }
+}
+</script>
+
+</body>
+</html>

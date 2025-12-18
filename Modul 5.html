@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modul 5 – Eksperimen Mandiri</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #111;
+    min-height: 100vh;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0, 0, 128, 0.9);
+    padding: 15px 30px;
+    color: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+header .title-box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+header #logo {
+    height: 55px;
+    background: white;
+    padding: 5px;
+    border-radius: 8px;
+}
+
+header .profile-box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+header .profile-box img {
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    border: 2px solid white;
+    background: white;
+}
+
+header button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    background: white;
+    color: #000080;
+}
+
+header button:hover {
+    background: #f0f0f0;
+}
+
+.sidebar {
+    width: 220px;
+    position: fixed;
+    top: 85px;
+    left: 0;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    height: calc(100vh - 85px);
+    padding-top: 20px;
+    z-index: 100;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    overflow-y: auto;
+}
+
+.sidebar a {
+    display: block;
+    padding: 12px 20px;
+    color: #00358d;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.sidebar a:hover, .sidebar a.active {
+    background: rgba(0, 53, 141, 0.2);
+    border-left: 4px solid #00358d;
+}
+
+.main-content {
+    margin-left: 240px;
+    padding: 30px;
+    background: rgba(255,255,255,0.95);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    min-height: calc(100vh - 200px);
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.main-content h1 {
+    color: #00358d;
+    margin-bottom: 10px;
+    font-size: 28px;
+}
+
+.subtitle {
+    color: #666;
+    margin-bottom: 25px;
+    font-size: 14px;
+}
+
+/* Instructions */
+.instructions {
+    background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    border-left: 5px solid #f39c12;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.instructions h4 {
+    margin-top: 0;
+    color: #8b6914;
+    font-size: 18px;
+}
+
+.instructions ul {
+    margin: 10px 0 0 0;
+    padding-left: 25px;
+}
+
+.instructions li {
+    margin: 8px 0;
+    color: #5d4e00;
+}
+
+/* Experiment Setup */
+.experiment-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 25px;
+    margin-top: 25px;
+}
+
+@media (max-width: 1200px) {
+    .experiment-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Lab Area */
+.lab-area {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.lab-area h3 {
+    color: #00358d;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+/* Reagent Shelf */
+.reagent-shelf {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 10px;
+}
+
+.reagent-bottle {
+    background: white;
+    border: 3px solid #00358d;
+    border-radius: 10px;
+    padding: 15px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.reagent-bottle:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    border-color: #667eea;
+}
+
+.reagent-bottle.selected {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: #667eea;
+}
+
+.reagent-icon {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+.reagent-name {
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.reagent-conc {
+    font-size: 11px;
+    color: #666;
+}
+
+.reagent-bottle.selected .reagent-conc {
+    color: rgba(255,255,255,0.9);
+}
+
+/* Equipment Area */
+.equipment-workspace {
+    position: relative;
+    height: 450px;
+    background: rgba(240, 248, 255, 0.5);
+    border-radius: 10px;
+    border: 2px dashed #00358d;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.workspace-empty {
+    text-align: center;
+    color: #666;
+    font-size: 16px;
+}
+
+.workspace-empty p {
+    margin: 10px 0;
+}
+
+/* Equipment Container */
+.equipment-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+.equipment-container.active {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 20px;
+}
+
+/* Burette */
+.burette-container {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.burette-top {
+    width: 60px;
+    height: 30px;
+    background: linear-gradient(to bottom, #444, #666);
+    border-radius: 10px 10px 0 0;
+    margin: 0 auto;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.burette-tube {
+    width: 55px;
+    height: 280px;
+    background: linear-gradient(to right, rgba(200, 220, 255, 0.5), rgba(220, 235, 255, 0.7), rgba(200, 220, 255, 0.5));
+    border: 4px solid #333;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.2), 0 4px 10px rgba(0,0,0,0.2);
+    margin: 0 auto;
+}
+
+.burette-liquid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to bottom, rgba(100, 150, 255, 0.8), rgba(80, 120, 255, 0.9));
+    transition: height 0.6s ease;
+}
+
+.burette-tap {
+    width: 40px;
+    height: 25px;
+    background: linear-gradient(135deg, #666, #444);
+    margin: 0 auto;
+    border-radius: 0 0 20px 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+.burette-tap:hover {
+    background: linear-gradient(135deg, #00358d, #0066cc);
+}
+
+.burette-tap::after {
+    content: '▼';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
+}
+
+/* Flask */
+.flask-container {
+    position: relative;
+    width: 180px;
+    height: 220px;
+}
+
+.flask-neck {
+    width: 50px;
+    height: 70px;
+    background: linear-gradient(to right, rgba(255,255,255,0.3), rgba(255,255,255,0.5), rgba(255,255,255,0.3));
+    border: 4px solid #333;
+    border-bottom: none;
+    margin: 0 auto;
+    border-radius: 5px 5px 0 0;
+}
+
+.flask-body {
+    width: 180px;
+    height: 150px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.4), rgba(255,255,255,0.6));
+    border: 4px solid #333;
+    border-radius: 0 0 45% 45%;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.15), 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.solution {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #ff6b6b;
+    transition: all 0.5s ease;
+    border-radius: 0 0 45% 45%;
+}
+
+/* Droplet */
+.droplet {
+    position: absolute;
+    width: 10px;
+    height: 15px;
+    background: radial-gradient(circle at 30% 30%, rgba(150, 180, 255, 0.9), rgba(80, 120, 255, 1));
+    border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: fall 0.7s ease-in;
+    z-index: 5;
+}
+
+@keyframes fall {
+    0% {
+        top: 330px;
+        opacity: 1;
+    }
+    100% {
+        top: 390px;
+        opacity: 0;
+    }
+}
+
+/* Control Panel */
+.control-panel {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.control-panel h3 {
+    color: #00358d;
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 3px solid #00358d;
+    padding-bottom: 10px;
+}
+
+.control-section {
+    margin-bottom: 25px;
+}
+
+.control-section h4 {
+    color: #00358d;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.control-item {
+    margin-bottom: 15px;
+}
+
+.control-item label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #00358d;
+    font-size: 14px;
+}
+
+.control-item input,
+.control-item select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #00358d;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.control-item input:focus,
+.control-item select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.selected-reagents {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.selected-reagents p {
+    margin: 8px 0;
+    font-size: 14px;
+}
+
+.selected-reagents strong {
+    color: #00358d;
+}
+
+.btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #00358d 0%, #0066cc 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 12px;
+    transition: all 0.3s;
+    box-shadow: 0 3px 10px rgba(0, 53, 141, 0.3);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 53, 141, 0.4);
+}
+
+.btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-action {
+    background: linear-gradient(135deg, #00c853 0%, #00e676 100%);
+}
+
+.btn-reset {
+    background: linear-gradient(135deg, #d32f2f 0%, #f44336 100%);
+}
+
+/* Results Panel */
+.results-panel {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    margin-top: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.results-panel h3 {
+    color: #00358d;
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 3px solid #00358d;
+    padding-bottom: 10px;
+}
+
+.result-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.result-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.result-card h4 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.result-card .value {
+    font-size: 32px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.result-card .unit {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.experiment-log {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.log-entry {
+    padding: 8px;
+    margin: 5px 0;
+    background: white;
+    border-left: 4px solid #00358d;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.log-entry.success {
+    border-left-color: #4caf50;
+}
+
+.log-entry.warning {
+    border-left-color: #ff9800;
+}
+
+.log-entry.error {
+    border-left-color: #f44336;
+}
+
+/* Notification */
+.notification {
+    position: fixed;
+    top: 100px;
+    right: 30px;
+    padding: 18px 25px;
+    background: linear-gradient(135deg, #00c853, #00e676);
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    z-index: 1000;
+    animation: slideIn 0.4s ease;
+    font-weight: bold;
+    max-width: 350px;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(500px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.notification.warning {
+    background: linear-gradient(135deg, #ff9800, #ffc107);
+}
+
+.notification.error {
+    background: linear-gradient(135deg, #d32f2f, #f44336);
+}
+
+footer {
+    margin-top: 40px;
+    text-align: center;
+    padding: 20px;
+    color: white;
+    font-size: 13px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.dark-mode body {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+.dark-mode .main-content,
+.dark-mode .control-panel,
+.dark-mode .results-panel {
+    background: rgba(30, 30, 50, 0.95);
+    color: white;
+}
+
+.dark-mode .sidebar {
+    background: rgba(30, 30, 50, 0.95);
+}
+
+.dark-mode .lab-area {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
+}
+
+.dark-mode .reagent-shelf {
+    background: rgba(40, 40, 60, 0.7);
+}
+
+.dark-mode .reagent-bottle {
+    background: rgba(50, 50, 70, 0.9);
+    color: white;
+}
+
+.dark-mode .selected-reagents,
+.dark-mode .experiment-log {
+    background: rgba(40, 40, 60, 0.8);
+}
+
+.dark-mode .log-entry {
+    background: rgba(60, 60, 80, 0.8);
+    color: white;
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div class="title-box">
+        <div id="logo" style="width: 55px; height: 55px; background: white; border-radius: 8px;"></div>
+        <span style="font-size: 18px; font-weight: bold;">Lab Virtual Titrasi Asam-Basa</span>
+    </div>
+    <div class="profile-box">
+        <span>St. Rahmawati</span>
+        <div style="width: 45px; height: 45px; background: white; border-radius: 50%; border: 2px solid white;"></div>
+        <button onclick="toggleMode()">🌙 Dark Mode</button>
+    </div>
+</header>
+
+<div class="sidebar">
+     <a href="Modul 1.html">Beranda</a>
+    <a href="Modul 2.html" class="active">Teori</a>
+    <a href="Modul 3.html">Simulasi</a>
+    <a href="Modul 4.html">Grafik</a>
+    <a href="Modul 5.html">Eksperimen Mandiri</a>
+    <a href="Modul 6.html">Analisis & Refleksi</a>
+    <a href="Modul 7.html">Quiz & Sertifikat</a>
+    <a href="Modul 8.html">Mode Guru</a>
+</div>
+
+<div class="main-content">
+    <h1>🔬 Eksperimen Mandiri</h1>
+    <p class="subtitle">Rancang dan lakukan eksperimen titrasi dengan memilih reagent dan parameter sendiri</p>
+    
+    <div class="instructions">
+        <h4>📋 Petunjuk Eksperimen Mandiri:</h4>
+        <ul>
+            <li><strong>Pilih Reagent:</strong> Klik botol reagent untuk memilih asam yang akan dititrasi</li>
+            <li><strong>Pilih Titran:</strong> Pilih basa atau asam untuk titrasi</li>
+            <li><strong>Atur Volume:</strong> Tentukan volume larutan di labu Erlenmeyer</li>
+            <li><strong>Mulai Eksperimen:</strong> Klik tombol untuk memulai titrasi mandiri</li>
+            <li><strong>Lakukan Titrasi:</strong> Tambahkan titran tetes demi tetes</li>
+            <li><strong>Catat Hasil:</strong> Amati dan catat titik ekuivalen serta hasil eksperimen</li>
+        </ul>
+    </div>
+
+    <div class="experiment-container">
+        <div class="lab-area">
+            <h3>🧪 Area Laboratorium</h3>
+            
+            <div class="reagent-shelf">
+                <div class="reagent-bottle" onclick="selectReagent('HCl', 0.1, 'analyte')">
+                    <div class="reagent-icon">⚗️</div>
+                    <div class="reagent-name">HCl</div>
+                    <div class="reagent-conc">0.1 M</div>
+                </div>
+                
+                <div class="reagent-bottle" onclick="selectReagent('HCl', 0.5, 'analyte')">
+                    <div class="reagent-icon">⚗️</div>
+                    <div class="reagent-name">HCl</div>
+                    <div class="reagent-conc">0.5 M</div>
+                </div>
+                
+                <div class="reagent-bottle" onclick="selectReagent('CH3COOH', 0.1, 'analyte')">
+                    <div class="reagent-icon">⚗️</div>
+                    <div class="reagent-name">CH₃COOH</div>
+                    <div class="reagent-conc">0.1 M</div>
+                </div>
+                
+                <div class="reagent-bottle" onclick="selectReagent('H2SO4', 0.1, 'analyte')">
+                    <div class="reagent-icon">⚗️</div>
+                    <div class="reagent-name">H₂SO₄</div>
+                    <div class="reagent-conc">0.1 M</div>
+                </div>
+                
+                <div class="reagent-bottle" onclick="selectReagent('HNO3', 0.1, 'analyte')">
+                    <div class="reagent-icon">⚗️</div>
+                    <div class="reagent-name">HNO₃</div>
+                    <div class="reagent-conc">0.1 M</div>
+                </div>
+                
+                <div class="reagent-bottle" onclick="selectReagent('NaOH', 0.1, 'titrant')">
+                    <div class="reagent-icon">💧</div>
+                    <div class="reagent-name">NaOH</div>
+                    <div class="reagent-conc">0.1 M</div>
+                </div>
+                
+                <div class="reagent-bottle" onclick="selectReagent('NaOH', 0.5, 'titrant')">
+                    <div class="reagent-icon">💧</div>
+                    <div class="reagent-name">NaOH</div>
+                    <div class="reagent-conc">0.5 M</div>
+                </div>
+                
+                <div class="reagent-bottle" onclick="selectReagent('KOH', 0.1, 'titrant')">
+                    <div class="reagent-icon">💧</div>
+                    <div class="reagent-name">KOH</div>
+                    <div class="reagent-conc">0.1 M</div>
+                </div>
+            </div>
+            
+            <div class="equipment-workspace">
+                <div class="workspace-empty" id="workspaceEmpty">
+                    <p>🧪 Pilih reagent dan klik "Mulai Eksperimen"</p>
+                    <p style="font-size: 14px; color: #999;">Area kerja akan muncul setelah Anda memilih reagent</p>
+                </div>
+                
+                <div class="equipment-container" id="equipmentContainer">
+                    <div class="burette-container">
+                        <div class="burette-top"></div>
+                        <div class="burette-tube">
+                            <div class="burette-liquid" id="buretteLiquid"></div>
+                        </div>
+                        <div class="burette-tap" id="buretteTap"></div>
+                    </div>
+                    
+                    <div class="flask-container">
+                        <div class="flask-neck"></div>
+                        <div class="flask-body">
+                            <div class="solution" id="solution"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="control-panel">
+            <h3>⚙️ Panel Kontrol</h3>
+            
+            <div class="control-section">
+                <h4>📝 Reagent Terpilih</h4>
+                <div class="selected-reagents">
+                    <p><strong>Analyte (Titrat):</strong> <span id="selectedAnalyte">Belum dipilih</span></p>
+                    <p><strong>Titrant (Buret):</strong> <span id="selectedTitrant">Belum dipilih</span></p>
+                </div>
+            </div>
+            
+            <div class="control-section">
+                <h4>⚗️ Parameter Eksperimen</h4>
+                
+                <div class="control-item">
+                    <label>Volume Analyte (mL):</label>
+                    <input type="number" id="analyteVolume" value="25" min="10" max="50" step="5">
+                </div>
+                
+                <div class="control-item">
+                    <label>Indikator:</label>
+                    <select id="indicator">
+                        <option value="phenolphthalein">Fenolftalein</option>
+                        <option value="methyl-orange">Metil Oranye</option>
+                        <option value="bromothymol-blue">Bromtimol Biru</option>
+                    </select>
+                </div>
+            </div>
+            
+            <button class="btn" id="startBtn" onclick="startExperiment()">▶️ Mulai Eksperimen</button>
+            <button class="btn btn-action" id="addDropBtn" onclick="addDrop()" disabled>💧 Tambah Tetes (0.5 mL)</button>
+            <button class="btn btn-reset" onclick="resetExperiment()">🔄 Reset</button>
+        </div>
+    </div>
+
+    <div class="results-panel">
+        <h3>📊 Hasil Eksperimen</h3>
+        
+        <div class="result-grid">
+            <div class="result-card">
+                <h4>💧 Volume Titran</h4>
+                <div class="value" id="resultVolume">0.00</div>
+                <div class="unit">mL</div>
+            </div>
+            
+            <div class="result-card">
+                <h4>🔬 pH Saat Ini</h4>
+                <div class="value" id="resultPH">--</div>
+                <div class="unit">pH</div>
+            </div>
+            
+            <div class="result-card">
+                <h4>🎯 Titik Ekuivalen</h4>
+                <div class="value" id="resultEqPoint">--</div>
+                <div class="unit">mL</div>
+            </div>
+            
+            <div class="result-card">
+                <h4>📍 Status</h4>
+                <div class="value" style="font-size: 18px;" id="resultStatus">Siap</div>
+                <div class="unit"></div>
+            </div>
+        </div>
+        
+        <h4 style="color: #00358d; margin-top: 25px; margin-bottom: 15px;">📝 Log Eksperimen</h4>
+        <div class="experiment-log" id="experimentLog">
+            <div class="log-entry">Menunggu eksperimen dimulai...</div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    © 2025 St. Rahmawati - Laboratorium Virtual Titrasi Asam-Basa
+</footer>
+
+<script>
+let state = {
+    isRunning: false,
+    volumeAdded: 0,
+    currentPH: 1.0,
+    analyteFormula: null,
+    analyteConc: 0,
+    titrantFormula: null,
+    titrantConc: 0,
+    analyteVol: 25,
+    equivalenceVol: 0,
+    equivalencePH: 7.0,
+    isComplete: false,
+    initialPH: 1.0,
+    selectedAnalyteBottle: null,
+    selectedTitrantBottle: null
+};
+
+let logs = [];
+
+function toggleMode() {
+    document.body.classList.toggle('dark-mode');
+}
+
+function selectReagent(formula, conc, type) {
+    if (type === 'analyte') {
+        // Remove previous selection
+        if (state.selectedAnalyteBottle) {
+            state.selectedAnalyteBottle.classList.remove('selected');
+        }
+        
+        // Select new reagent
+        state.analyteFormula = formula;
+        state.analyteConc = conc;
+        
+        // Update UI
+        const bottles = document.querySelectorAll('.reagent-bottle');
+        bottles.forEach(bottle => {
+            if (bottle.querySelector('.reagent-name').textContent === formula && 
+                bottle.querySelector('.reagent-conc').textContent === conc + ' M' &&
+                bottle.querySelector('.reagent-icon').textContent === '⚗️') {
+                bottle.classList.add('selected');
+                state.selectedAnalyteBottle = bottle;
+            }
+        });
+        
+        document.getElementById('selectedAnalyte').textContent = `${formula} (${conc} M)`;
+        addLog(`Dipilih: ${formula} ${conc} M sebagai analyte`, 'success');
+    } else {
+        // Remove previous selection
+        if (state.selectedTitrantBottle) {
+            state.selectedTitrantBottle.classList.remove('selected');
+        }
+        
+        // Select new reagent
+        state.titrantFormula = formula;
+        state.titrantConc = conc;
+        
+        // Update UI
+        const bottles = document.querySelectorAll('.reagent-bottle');
+        bottles.forEach(bottle => {
+            if (bottle.querySelector('.reagent-name').textContent === formula && 
+                bottle.querySelector('.reagent-conc').textContent === conc + ' M' &&
+                bottle.querySelector('.reagent-icon').textContent === '💧') {
+                bottle.classList.add('selected');
+                state.selectedTitrantBottle = bottle;
+            }
+        });
+        
+        document.getElementById('selectedTitrant').textContent = `${formula} (${conc} M)`;
+        addLog(`Dipilih: ${formula} ${conc} M sebagai titrant`, 'success');
+    }
+}
+
+function startExperiment() {
+    // Validate selections
+    if (!state.analyteFormula || !state.titrantFormula) {
+        showNotification('⚠️ Pilih analyte dan titrant terlebih dahulu!', 'warning');
+        return;
+    }
+    
+    const analyteVol = parseFloat(document.getElementById('analyteVolume').value);
+    
+    if (isNaN(analyteVol)) {
+        showNotification('⚠️ Volume tidak valid!', 'warning');
+        return;
+    }
+    
+    state.analyteVol = analyteVol;
+    state.volumeAdded = 0;
+    state.isRunning = true;
+    state.isComplete = false;
+    
+    // Calculate equivalence point
+    state.equivalenceVol = (analyteVol * state.analyteConc) / state.titrantConc;
+    
+    // Determine pH parameters based on reagent types
+    const isStrongAcid = ['HCl', 'H2SO4', 'HNO3'].includes(state.analyteFormula);
+    const isWeakAcid = ['CH3COOH'].includes(state.analyteFormula);
+    const isStrongBase = ['NaOH', 'KOH'].includes(state.titrantFormula);
+    
+    if (isStrongAcid && isStrongBase) {
+        state.initialPH = 1.0;
+        state.equivalencePH = 7.0;
+    } else if (isWeakAcid && isStrongBase) {
+        state.initialPH = 2.9;
+        state.equivalencePH = 8.7;
+    } else {
+        state.initialPH = 1.5;
+        state.equivalencePH = 6.5;
+    }
+    
+    state.currentPH = state.initialPH;
+    
+    // Show equipment
+    document.getElementById('workspaceEmpty').style.display = 'none';
+    document.getElementById('equipmentContainer').classList.add('active');
+    
+    // Update UI
+    document.getElementById('startBtn').disabled = true;
+    document.getElementById('addDropBtn').disabled = false;
+    document.getElementById('buretteLiquid').style.height = '0%';
+    
+    updateDisplay();
+    
+    addLog(`Eksperimen dimulai: ${state.analyteFormula} + ${state.titrantFormula}`, 'success');
+    addLog(`Volume analyte: ${analyteVol} mL`, 'success');
+    addLog(`Titik ekuivalen teoritis: ${state.equivalenceVol.toFixed(2)} mL`, 'success');
+    
+    showNotification('✅ Eksperimen dimulai! Mulai tambahkan titran.', 'success');
+}
+
+function addDrop() {
+    if (!state.isRunning || state.isComplete) return;
+    
+    const dropVol = 0.5;
+    state.volumeAdded += dropVol;
+    
+    // Calculate pH
+    calculatePH();
+    
+    // Update display
+    updateDisplay();
+    
+    // Create droplet animation
+    createDroplet();
+    
+    // Log action
+    if (state.volumeAdded % 5 === 0) {
+        addLog(`Volume: ${state.volumeAdded.toFixed(1)} mL, pH: ${state.currentPH.toFixed(2)}`, 'success');
+    }
+    
+    // Check for equivalence point
+    const diff = Math.abs(state.volumeAdded - state.equivalenceVol);
+    
+    if (diff < 0.6 && !state.isComplete) {
+        state.isComplete = true;
+        addLog(`🎉 TITIK EKUIVALEN TERCAPAI!`, 'success');
+        addLog(`Volume ekuivalen: ${state.volumeAdded.toFixed(2)} mL`, 'success');
+        addLog(`pH ekuivalen: ${state.currentPH.toFixed(2)}`, 'success');
+        showNotification('🎉 Titik Ekuivalen Tercapai!', 'success');
+        document.getElementById('addDropBtn').disabled = true;
+    } else if (state.volumeAdded > state.equivalenceVol + 15) {
+        addLog('⚠️ Melewati titik ekuivalen terlalu jauh', 'warning');
+        showNotification('⚠️ Sudah melewati titik ekuivalen!', 'warning');
+        document.getElementById('addDropBtn').disabled = true;
+    }
+}
+
+function calculatePH() {
+    const volAdded = state.volumeAdded;
+    const volEq = state.equivalenceVol;
+    const pHEq = state.equivalencePH;
+    const initialPH = state.initialPH;
+    
+    if (volAdded === 0) {
+        state.currentPH = initialPH;
+        return;
+    }
+    
+    const fraction = volAdded / volEq;
+    
+    if (fraction < 0.5) {
+        state.currentPH = initialPH + (pHEq - initialPH) * Math.pow(fraction, 0.3);
+    } else if (fraction < 0.9) {
+        const progress = (fraction - 0.5) / 0.4;
+        const midPH = initialPH + (pHEq - initialPH) * Math.pow(0.5, 0.3);
+        state.currentPH = midPH + (pHEq - midPH) * progress * 0.6;
+    } else if (fraction < 1.1) {
+        const progress = (fraction - 0.9) / 0.2;
+        const startPH = initialPH + (pHEq - initialPH) * 0.7;
+        state.currentPH = startPH + (pHEq + (14 - pHEq) * 0.4 - startPH) * progress;
+    } else {
+        const excess = fraction - 1.0;
+        state.currentPH = pHEq + Math.min(14 - pHEq, excess * 3);
+    }
+    
+    state.currentPH = Math.max(0, Math.min(14, state.currentPH));
+}
+
+function updateDisplay() {
+    // Update result cards
+    document.getElementById('resultVolume').textContent = state.volumeAdded.toFixed(2);
+    document.getElementById('resultPH').textContent = state.currentPH.toFixed(2);
+    document.getElementById('resultEqPoint').textContent = state.equivalenceVol.toFixed(2);
+    
+    let status = 'Berjalan';
+    if (!state.isRunning) {
+        status = 'Siap';
+    } else if (state.isComplete) {
+        status = 'Selesai ✓';
+    }
+    document.getElementById('resultStatus').textContent = status;
+    
+    // Update solution color
+    updateSolutionColor();
+    
+    // Update burette level
+    const burettePercent = Math.min(100, (state.volumeAdded / 50) * 100);
+    document.getElementById('buretteLiquid').style.height = burettePercent + '%';
+    
+    // Update solution level
+    const baseLevel = 35;
+    const addedLevel = (state.volumeAdded / state.equivalenceVol) * 45;
+    const totalLevel = Math.min(90, baseLevel + addedLevel);
+    document.getElementById('solution').style.height = totalLevel + '%';
+}
+
+function updateSolutionColor() {
+    const pH = state.currentPH;
+    let color;
+    
+    if (pH < 2) {
+        color = '#ff4444';
+    } else if (pH < 3) {
+        color = '#ff6666';
+    } else if (pH < 4) {
+        color = '#ff8888';
+    } else if (pH < 5) {
+        color = '#ffaaaa';
+    } else if (pH < 6) {
+        color = '#ffcccc';
+    } else if (pH < 7) {
+        color = '#ffe0e0';
+    } else if (pH < 8) {
+        color = '#e0e0ff';
+    } else if (pH < 9) {
+        color = '#ccccff';
+    } else if (pH < 10) {
+        color = '#aaaaff';
+    } else if (pH < 11) {
+        color = '#8888ff';
+    } else if (pH < 12) {
+        color = '#6666ff';
+    } else {
+        color = '#4444ff';
+    }
+    
+    document.getElementById('solution').style.background = color;
+}
+
+function createDroplet() {
+    const droplet = document.createElement('div');
+    droplet.className = 'droplet';
+    document.querySelector('.equipment-workspace').appendChild(droplet);
+    
+    setTimeout(() => {
+        droplet.remove();
+    }, 700);
+}
+
+function resetExperiment() {
+    state = {
+        isRunning: false,
+        volumeAdded: 0,
+        currentPH: 1.0,
+        analyteFormula: state.analyteFormula,
+        analyteConc: state.analyteConc,
+        titrantFormula: state.titrantFormula,
+        titrantConc: state.titrantConc,
+        analyteVol: 25,
+        equivalenceVol: 0,
+        equivalencePH: 7.0,
+        isComplete: false,
+        initialPH: 1.0,
+        selectedAnalyteBottle: state.selectedAnalyteBottle,
+        selectedTitrantBottle: state.selectedTitrantBottle
+    };
+    
+    document.getElementById('startBtn').disabled = false;
+    document.getElementById('addDropBtn').disabled = true;
+    document.getElementById('workspaceEmpty').style.display = 'flex';
+    document.getElementById('equipmentContainer').classList.remove('active');
+    
+    logs = [];
+    document.getElementById('experimentLog').innerHTML = '<div class="log-entry">Menunggu eksperimen dimulai...</div>';
+    
+    updateDisplay();
+    
+    addLog('Eksperimen direset', 'success');
+    showNotification('🔄 Eksperimen direset. Silakan mulai lagi!', 'success');
+}
+
+function addLog(message, type = 'success') {
+    const logContainer = document.getElementById('experimentLog');
+    
+    if (logs.length === 0) {
+        logContainer.innerHTML = '';
+    }
+    
+    const logEntry = document.createElement('div');
+    logEntry.className = `log-entry ${type}`;
+    
+    const time = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    logEntry.textContent = `[${time}] ${message}`;
+    
+    logs.push({ time, message, type });
+    
+    logContainer.appendChild(logEntry);
+    logContainer.scrollTop = logContainer.scrollHeight;
+}
+
+function showNotification(message, type = 'success') {
+    const existing = document.querySelectorAll('.notification');
+    existing.forEach(n => n.remove());
+    
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transform = 'translateX(500px)';
+        setTimeout(() => notification.remove(), 400);
+    }, 3500);
+}
+
+// Burette tap interaction
+document.getElementById('buretteTap').addEventListener('click', function() {
+    if (state.isRunning && !state.isComplete) {
+        addDrop();
+    }
+});
+
+// Initialize
+window.addEventListener('DOMContentLoaded', function() {
+    updateDisplay();
+    showNotification('👋 Selamat datang di Eksperimen Mandiri! Pilih reagent untuk memulai.', 'success');
+});

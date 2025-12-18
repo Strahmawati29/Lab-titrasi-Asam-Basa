@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modul 2 — Teori Asam-Basa</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url("Lab.jpeg") no-repeat center center fixed;
+    background-size: cover;
+    color: #111;
+}
+
+/* Header */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0, 0, 128, 0.7);
+    padding: 15px 30px;
+    color: white;
+}
+
+header #logo {
+    height: 55px;
+}
+
+header .profile-box img {
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+header button {
+    padding: 8px 15px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 220px;
+    position: fixed;
+    top: 80px;
+    left: 0;
+    background: rgba(255,255,255,0.65);
+    backdrop-filter: blur(5px);
+    height: 100%;
+    padding-top: 20px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 12px 20px;
+    color: #00358d;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.sidebar a:hover, .sidebar a.active {
+    background: rgba(0, 53, 141, 0.3);
+    border-radius: 6px;
+}
+
+/* Konten utama */
+.main-content {
+    margin-left: 240px;
+    padding: 30px;
+    background: rgba(255,255,255,0.55);
+    border-radius: 12px;
+    backdrop-filter: blur(5px);
+}
+
+.main-content h1 {
+    color: #00358d;
+}
+
+.main-content img {
+    max-width: 100%;
+    margin: 15px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.main-content p {
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+footer {
+    margin-top: 40px;
+    text-align: center;
+    padding: 15px;
+    color: white;
+    font-size: 13px;
+}
+
+.dark-mode body, .dark-mode .sidebar, .dark-mode .main-content {
+    background: rgba(0,0,0,0.65) !important;
+    color: white;
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div class="title-box">
+        <img src="logo_kampus.jpg" id="logo">
+        <span>Lab Virtual Titrasi Asam-Basa</span>
+    </div>
+    <div class="profile-box">
+        <span>St. Rahmawati</span>
+        <img src="">
+        <button onclick="toggleMode()">Dark Mode</button>
+    </div>
+</header>
+
+<div class="sidebar">
+    <a href="Modul 1.html">Beranda</a>
+    <a href="Modul 2.html" class="active">Teori</a>
+    <a href="Modul 3.html">Simulasi</a>
+    <a href="Modul 4.html">Grafik</a>
+    <a href="Modul 5.html">Eksperimen Mandiri</a>
+    <a href="Modul 6.html">Analisis & Refleksi</a>
+    <a href="Modul 7.html">Quiz & Sertifikat</a>
+    <a href="Modul 8.html">Mode Guru</a>
+</div>
+
+<div class="main-content">
+    <h1>Teori Asam-Basa (Brønsted–Lowry)</h1>
+
+    <p>Teori Brønsted–Lowry adalah teori reaksi asam–basa yang diajukan secara terpisah oleh Johannes Nicolaus Brønsted dan Thomas Martin Lowry pada tahun 1923. Konsep dasar teori ini adalah bahwa ketika suatu asam dan basa bereaksi satu sama lain, asam akan membentuk basa konjugatnya, dan basa membentuk asam konjugatnya melalui pertukaran proton (H+). Teori ini merupakan generalisasi teori Arrhenius.</p>
+
+    <h2>Definisi Asam dan Basa</h2>
+    <p>Asam adalah donor proton (H+) dan basa adalah akseptor proton. Contoh reaksi:</p>
+    <img src="teori_asam.jpeg" alt="Ilustrasi Asam-Basa">
+
+    <p>HA + B ⇌ A⁻ + HB⁺</p>
+    <p>HA adalah asam yang melepas proton menjadi basa konjugatnya A⁻. B adalah basa yang menerima proton menjadi asam konjugatnya HB⁺.</p>
+
+    <h2>Asam-Basa pada Larutan</h2>
+    <p>Contoh: Asam asetat CH₃COOH dapat memberikan proton ke air membentuk CH₃COO⁻ dan H₃O⁺.</p>
+    <img src="teori_bronsted.jpeg" alt="Teori Brønsted–Lowry">
+
+    <h2>Senyawa Amfoter</h2>
+    <p>Air bersifat amfoter karena dapat bertindak sebagai asam maupun basa. Contoh lain: Al(OH)₃.</p>
+
+    <h2>Larutan Non-Akuatik</h2>
+    <p>Dalam pelarut non-akuatik, ion hidrogen dan ion hidroksida tetap berperan sesuai prinsip Brønsted–Lowry. Contoh: NH₃ + NH₃ ⇌ NH₄⁺ + NH₂⁻.</p>
+
+    <h2>Perbandingan dengan Teori Lewis dan Lux-Flood</h2>
+    <p>Teori Lewis mendefinisikan asam sebagai akseptor pasangan elektron, sedangkan basa sebagai donor pasangan elektron. Teori Lux-Flood digunakan untuk oksida dan mineral non-akuatik.</p>
+</div>
+
+<footer>
+    © 2025 St. Rahmawati
+</footer>
+
+<script>
+function toggleMode() {
+    document.body.classList.toggle('dark-mode');
+}
+</script>
+
+</body>
+</html>
